@@ -1,9 +1,9 @@
-require("dotenv").config();
+require("dotenv").config()
 
-const { connectDb } = require("./connect");
-const { Blog } = require("./models");
+const { connectDb } = require("./connect")
+const { Blog, User } = require("./models")
 
-const seedData = [
+const blogs = [
   {
     title: "React patterns",
     author: "Michael Chan",
@@ -39,14 +39,21 @@ const seedData = [
     author: "Martin Fowler",
     url: "https://martinfowler.com/articles/distributed-objects-microservices.html",
   },
-];
+]
+
+const user = {
+  username: "volfy@email.dev",
+  name: "Dev User",
+}
 
 const seed = async () => {
-  const sequelize = await connectDb();
+  const sequelize = await connectDb()
 
-  await Blog.bulkCreate(seedData);
+  const userInDb = await User.create(user)
 
-  sequelize.close();
-};
+  await Blog.bulkCreate(blogs.map((b) => ({ ...b, user_id: userInDb.id })))
 
-seed();
+  sequelize.close()
+}
+
+seed()

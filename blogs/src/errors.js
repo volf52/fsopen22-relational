@@ -26,9 +26,33 @@ class FieldRequired extends Error {
   }
 }
 
+class InvalidCredentials extends Error {
+  constructor() {
+    super("invalid credentials")
+    this.name = "InvalidCredentials"
+  }
+}
+
+class AuthError extends Error {
+  constructor() {
+    super("missing or invalid jwt")
+    this.name = "AuthError"
+  }
+}
+
+class UserForTokenNotFound extends Error {
+  constructor() {
+    super("invalid token. couldn't find associated user")
+    this.name = "UserForTokenNotFound"
+  }
+}
+
 module.exports = {
   BlogNotFound,
   FieldRequired,
   UserWithUsernameNotFound,
   UserNotFound,
+  InvalidCredentials,
+  AuthError,
+  UserForTokenNotFound,
 }

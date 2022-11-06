@@ -7,11 +7,18 @@ const notFoundErrors = new Set([
 const validationErrors = new Set([
   "ValidationError",
   "SequelizeValidationError",
+  "SequelizeUniqueConstraintError",
   "FieldRequired",
 ])
 
+const authErrors = new Set([
+  "AuthError",
+  "InvalidCredentials",
+  "UserForTokenNotFound",
+])
+
 const errorHandler = (err, _req, res, next) => {
-  console.error(err.message)
+  console.error(err.name, err.message)
 
   if (notFoundErrors.has(err.name)) {
     return res.status(404).json({ error: err.message })
@@ -19,6 +26,10 @@ const errorHandler = (err, _req, res, next) => {
 
   if (validationErrors.has(err.name)) {
     return res.status(422).json({ error: err.message })
+  }
+
+  if (authErrors.has(err.name)) {
+    return res.status(401).json({ error: err.message })
   }
 
   next(err)

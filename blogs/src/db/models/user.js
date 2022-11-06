@@ -2,7 +2,7 @@ const { Model, DataTypes } = require("sequelize")
 
 class User extends Model {}
 
-const initUser = async (sequelize) => {
+const initUser = (sequelize) => {
   User.init(
     {
       id: {
@@ -29,8 +29,6 @@ const initUser = async (sequelize) => {
       underscored: true,
     },
   )
-
-  await User.sync()
 }
 
 module.exports = { User, initUser }

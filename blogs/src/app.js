@@ -4,6 +4,7 @@ const { connectDb } = require("./db/connect")
 
 const blogRouter = require("./routes/blogs")
 const userRouter = require("./routes/users")
+const authRouter = require("./routes/auth")
 
 const errorMiddleware = require("./middleware/error")
 
@@ -16,6 +17,7 @@ const start = async () => {
 
   app.use("/api/blogs", blogRouter)
   app.use("/api/users", userRouter)
+  app.use("/api/login", authRouter)
 
   app.use(errorMiddleware)
 

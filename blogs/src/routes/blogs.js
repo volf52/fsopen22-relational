@@ -1,36 +1,42 @@
-const { Router } = require("express");
-const { Blog } = require("../db/models/blog");
+const { Router } = require("express")
+const { Blog, User } = require("../db/models")
 
-const errors = require("../errors");
+const errors = require("../errors")
+const authMiddleware = require("../middleware/auth")
 
-const router = Router();
+const router = Router()
 
 router.get("/", async (_req, res) => {
-  const blogs = await Blog.findAll();
+  const blogs = await Blog.findAll()
 
-  res.json(blogs.map((blog) => blog.toJSON()));
-});
+  res.json(blogs.map((blog) => blog.toJSON()))
+})
 
 router.get("/:id", async (req, res, next) => {
   try {
-    const blog = await Blog.findByPk(req.params.id);
+    const blog = await Blog.findByPk(req.params.id)
 
     if (!blog) {
-      throw new errors.BlogNotFound(req.params.id);
+      throw new errors.BlogNotFound(req.params.id)
     }
 
-    res.json(blog.toJSON());
+    res.json(blog.toJSON())
   } catch (err) {
-    next(err);
+    next(err)
   }
-});
+})
 
-router.post("/", async (req, res, next) => {
-  const { title, url, author, likes } = req.body;
+router.post("/", authMiddleware, async (req, res, next) => {
+  const { title, url, author, likes } = req.body
 
   try {
     if (!title || !url || !author) {
-      throw new errors.FieldRequired("title, url, and author");
+      throw new errors.FieldRequired("title, url, and author")
+    }
+
+    const user = await User.findByPk(req.user.id)
+    if (!user) {
+      throw new errors.UserForTokenNotFound()
     }
 
     const blog = await Blog.create({
@@ -38,53 +44,54 @@ router.post("/", async (req, res, next) => {
       url,
       author,
       likes: likes || 0,
-    });
+      userId: user.id,
+    })
 
-    res.status(201).json(blog.toJSON());
+    res.status(201).json(blog.toJSON())
   } catch (err) {
-    next(err);
+    next(err)
   }
-});
+})
 
 router.put("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  const { likes } = req.body;
+  const { id } = req.params
+  const { likes } = req.body
 
   try {
     if (!likes) {
-      throw new errors.FieldRequired("likes");
+      throw new errors.FieldRequired("likes")
     }
 
-    const blog = await Blog.findByPk(id);
+    const blog = await Blog.findByPk(id)
 
     if (!blog) {
-      throw new errors.BlogNotFound(id);
+      throw new errors.BlogNotFound(id)
     }
 
-    blog.likes = likes;
+    blog.likes = likes
 
-    await blog.save();
+    await blog.save()
 
-    return res.json(blog.toJSON());
+    return res.json(blog.toJSON())
   } catch (err) {
-    next(err);
+    next(err)
   }
-});
+})
 
 router.delete("/:id", async (req, res, next) => {
-  const { id } = req.params;
+  const { id } = req.params
 
   try {
-    const deleted = await Blog.destroy({ where: { id } });
+    const deleted = await Blog.destroy({ where: { id } })
 
     if (!deleted) {
-      throw new errors.BlogNotFound(id);
+      throw new errors.BlogNotFound(id)
     }
 
-    res.status(204).end();
+    res.status(204).end()
   } catch (err) {
-    next(err);
+    next(err)
   }
-});
+})
 
-module.exports = router;
+module.exports = router
