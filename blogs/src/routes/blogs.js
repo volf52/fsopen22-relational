@@ -46,11 +46,15 @@ router.get("/:id", async (req, res, next) => {
 })
 
 router.post("/", authMiddleware, async (req, res, next) => {
-  const { title, url, author, likes } = req.body
+  const { title, url, author, likes, year } = req.body
 
   try {
-    if (!title || !url || !author) {
-      throw new errors.FieldRequired("title, url, and author")
+    if (!title || !url || !author || !year) {
+      throw new errors.FieldRequired("title, url, year and author")
+    }
+    const y = Number(year)
+    if (isNaN(y)) {
+      throw new errors.FieldRequired("year")
     }
 
     const user = await User.findByPk(req.user.id)
@@ -62,6 +66,7 @@ router.post("/", authMiddleware, async (req, res, next) => {
       title,
       url,
       author,
+      year: y,
       likes: likes || 0,
       userId: user.id,
     })
