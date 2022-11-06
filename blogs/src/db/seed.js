@@ -51,9 +51,9 @@ const seed = async () => {
 
   const userInDb = await User.create(user)
 
-  await Blog.bulkCreate(blogs.map((b) => ({ ...b, user_id: userInDb.id })))
+  await Blog.bulkCreate(blogs.map((b) => ({ ...b, userId: userInDb.id })))
 
-  sequelize.close()
+  await sequelize.close()
 }
 
 seed()

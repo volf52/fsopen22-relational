@@ -12,9 +12,10 @@ const validationErrors = new Set([
 ])
 
 const authErrors = new Set([
-  "AuthError",
+  "TokenError",
   "InvalidCredentials",
   "UserForTokenNotFound",
+  "UnauthorizedOperation",
 ])
 
 const errorHandler = (err, _req, res, next) => {

@@ -1,7 +1,7 @@
 const authService = require("../services/auth")
 const errors = require("../errors")
 
-const authError = new errors.AuthError()
+const authError = new errors.TokenError()
 
 const authMiddleware = async (req, resp, next) => {
   const auth = req ? req.headers.authorization : null

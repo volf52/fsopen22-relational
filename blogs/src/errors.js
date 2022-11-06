@@ -33,10 +33,10 @@ class InvalidCredentials extends Error {
   }
 }
 
-class AuthError extends Error {
+class TokenError extends Error {
   constructor() {
     super("missing or invalid jwt")
-    this.name = "AuthError"
+    this.name = "TokenError"
   }
 }
 
@@ -47,12 +47,20 @@ class UserForTokenNotFound extends Error {
   }
 }
 
+class UnauthorizedOperation extends Error {
+  constructor(msg) {
+    super(msg)
+    this.name = "UnauthorizedOperation"
+  }
+}
+
 module.exports = {
   BlogNotFound,
   FieldRequired,
   UserWithUsernameNotFound,
   UserNotFound,
   InvalidCredentials,
-  AuthError,
+  TokenError,
   UserForTokenNotFound,
+  UnauthorizedOperation,
 }

@@ -78,15 +78,19 @@ router.put("/:id", async (req, res, next) => {
   }
 })
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", authMiddleware, async (req, res, next) => {
   const { id } = req.params
 
   try {
-    const deleted = await Blog.destroy({ where: { id } })
+    const blog = await Blog.findByPk(id)
 
-    if (!deleted) {
-      throw new errors.BlogNotFound(id)
+    if (!blog) throw new errors.BlogNotFound(id)
+
+    if (blog.userId !== req.user.id) {
+      throw new errors.UnauthorizedOperation("this blog does not belong to you")
     }
+
+    await blog.destroy()
 
     res.status(204).end()
   } catch (err) {
