@@ -17,4 +17,11 @@ const verifyPassword = (pass) => pass === config.SECRET_PASS
 
 const decodeToken = (token) => jwt.verify(token, config.JWT_SECRET)
 
-module.exports = { decodeToken, createToken, verifyPassword }
+const getExpiryDate = () => {
+  const now = new Date()
+  const expiryDate = new Date(now.getTime() + config.JWT_EXPIRY_MS)
+
+  return expiryDate
+}
+
+module.exports = { decodeToken, createToken, verifyPassword, getExpiryDate }

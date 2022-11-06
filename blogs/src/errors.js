@@ -68,6 +68,13 @@ class ReadingListNotFound extends Error {
   }
 }
 
+class ActiveSessionNotFound extends Error {
+  constructor() {
+    super("no sessions found for associated token. please login again")
+    this.name = "ActiveSessionNotFound"
+  }
+}
+
 module.exports = {
   BlogNotFound,
   FieldRequired,
@@ -79,4 +86,5 @@ module.exports = {
   UnauthorizedOperation,
   ReadingListNotOwnedByUser,
   ReadingListNotFound,
+  ActiveSessionNotFound,
 }

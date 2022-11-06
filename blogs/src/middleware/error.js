@@ -19,6 +19,7 @@ const authErrors = new Set([
   "UserForTokenNotFound",
   "UnauthorizedOperation",
   "ReadingListNotOwnedByUser",
+  "ActiveSessionNotFound",
 ])
 
 const errorHandler = (err, _req, res, next) => {
