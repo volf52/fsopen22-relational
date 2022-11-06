@@ -28,6 +28,7 @@ User.init(
     modelName: "user",
     underscored: true,
     timestamps: true,
+    modelName: "users",
   },
 )
 
