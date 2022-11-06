@@ -54,6 +54,20 @@ class UnauthorizedOperation extends Error {
   }
 }
 
+class ReadingListNotOwnedByUser extends Error {
+  constructor(id, userId) {
+    super(`Reading list with id ${id} not owned by user ${userId}`)
+    this.name = "ReadingListNotOwnedByUser"
+  }
+}
+
+class ReadingListNotFound extends Error {
+  constructor(id) {
+    super(`Reading list with id ${id} not found`)
+    this.name = "ReadingListNotFound"
+  }
+}
+
 module.exports = {
   BlogNotFound,
   FieldRequired,
@@ -63,4 +77,6 @@ module.exports = {
   TokenError,
   UserForTokenNotFound,
   UnauthorizedOperation,
+  ReadingListNotOwnedByUser,
+  ReadingListNotFound,
 }

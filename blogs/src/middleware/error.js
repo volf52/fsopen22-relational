@@ -3,6 +3,7 @@ const notFoundErrors = new Set([
   "FieldRequired",
   "UserWithUsernameNotFound",
   "UserNotFound",
+  "ReadingListNotFound",
 ])
 const validationErrors = new Set([
   "ValidationError",
@@ -17,6 +18,7 @@ const authErrors = new Set([
   "InvalidCredentials",
   "UserForTokenNotFound",
   "UnauthorizedOperation",
+  "ReadingListNotOwnedByUser",
 ])
 
 const errorHandler = (err, _req, res, next) => {
