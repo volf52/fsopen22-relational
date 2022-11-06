@@ -1,6 +1,6 @@
 const { Router } = require("express")
 
-const { User, Blog } = require("../db/models")
+const { User, Blog, ReadingList } = require("../db/models")
 
 const errors = require("../errors")
 
@@ -8,12 +8,15 @@ const router = Router()
 
 router.get("/", async (_req, res) => {
   const users = await User.findAll({
-    include: {
-      model: Blog,
-      attributes: {
-        exclude: ["userId"],
+    include: [
+      {
+        model: Blog,
+        attributes: {
+          exclude: ["userId", "createdAt", "updatedAt"],
+        },
+        as: "blogs",
       },
-    },
+    ],
   })
 
   res.json(users.map((user) => user.toJSON()))
@@ -21,7 +24,18 @@ router.get("/", async (_req, res) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id)
+    const user = await User.findByPk(req.params.id, {
+      include: {
+        model: Blog,
+        attributes: {
+          exclude: ["userId", "createdAt", "updatedAt"],
+        },
+        as: "readings",
+        through: {
+          attributes: [],
+        },
+      },
+    })
 
     if (!user) {
       throw new errors.UserNotFound(req.params.id)

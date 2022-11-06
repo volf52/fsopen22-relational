@@ -8,6 +8,7 @@ const validationErrors = new Set([
   "ValidationError",
   "SequelizeValidationError",
   "SequelizeUniqueConstraintError",
+  "SequelizeForeignKeyConstraintError",
   "FieldRequired",
 ])
 

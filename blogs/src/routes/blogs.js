@@ -13,8 +13,14 @@ router.get("/", async (req, res) => {
   }
 
   const blogs = await Blog.findAll({
-    include: User,
-    attributes: { exclude: ["userId"] },
+    include: {
+      model: User,
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+      as: "user",
+    },
+    attributes: { exclude: ["userId", "createdAt"] },
     where: {
       [Op.or]: [
         {

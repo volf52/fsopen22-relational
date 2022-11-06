@@ -45,7 +45,6 @@ Blog.init(
     modelName: "blog",
     timestamps: true,
     underscored: true,
-    modelName: "blogs",
   },
 )
 
