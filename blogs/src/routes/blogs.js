@@ -7,7 +7,10 @@ const authMiddleware = require("../middleware/auth")
 const router = Router()
 
 router.get("/", async (_req, res) => {
-  const blogs = await Blog.findAll()
+  const blogs = await Blog.findAll({
+    include: User,
+    attributes: { exclude: ["userId"] },
+  })
 
   res.json(blogs.map((blog) => blog.toJSON()))
 })
