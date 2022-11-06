@@ -32,7 +32,7 @@ router.get("/:id", async (req, res, next) => {
         },
         as: "readings",
         through: {
-          attributes: [],
+          attributes: ["read", "id"],
         },
       },
     })
