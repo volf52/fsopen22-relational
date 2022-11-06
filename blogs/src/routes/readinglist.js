@@ -22,7 +22,7 @@ router.put("/:id", authMiddleware, async (req, resp, next) => {
   const { id } = req.params
   const { read } = req.body
 
-  if (!read) {
+  if (read === undefined) {
     return next(new errors.FieldRequired("read"))
   }
 

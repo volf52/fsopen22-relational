@@ -1,6 +1,7 @@
+const { Op } = require("sequelize")
 const { Router } = require("express")
 
-const { User, Blog, ReadingList } = require("../db/models")
+const { User, Blog } = require("../db/models")
 
 const errors = require("../errors")
 
@@ -23,6 +24,19 @@ router.get("/", async (_req, res) => {
 })
 
 router.get("/:id", async (req, res, next) => {
+  const { read } = req.query
+
+  if (read !== undefined && read !== "true" && read !== "false") {
+    return next(new errors.FieldRequired("read"))
+  }
+
+  let readWhere = {}
+  if (read === "true") {
+    readWhere.read = true
+  } else if (read === "false") {
+    readWhere.read = false
+  }
+
   try {
     const user = await User.findByPk(req.params.id, {
       include: {
@@ -33,6 +47,7 @@ router.get("/:id", async (req, res, next) => {
         as: "readings",
         through: {
           attributes: ["read", "id"],
+          where: readWhere,
         },
       },
     })
