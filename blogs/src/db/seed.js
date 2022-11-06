@@ -13,11 +13,13 @@ const blogs = [
     title: "Go To Statement Considered Harmful",
     author: "Edsger W. Dijkstra",
     url: "http://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf",
+    likes: 113,
   },
   {
     title: "Canonical string reduction",
     author: "Edsger W. Dijkstra",
     url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    likes: 11,
   },
   {
     title: "First class tests",
@@ -28,16 +30,19 @@ const blogs = [
     title: "TDD harms architecture",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    likes: 43,
   },
   {
     title: "Things I Don't Know as of 2018",
     author: "Dan Abramov",
     url: "https://overreacted.io/things-i-dont-know-as-of-2018/",
+    likes: 100,
   },
   {
     title: "Microservices and the first law of distributed computing",
     author: "Martin Fowler",
     url: "https://martinfowler.com/articles/distributed-objects-microservices.html",
+    likes: 3,
   },
 ]
 
