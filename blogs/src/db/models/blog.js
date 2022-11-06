@@ -1,8 +1,8 @@
-const { Model, DataTypes } = require("sequelize")
+const { Model, DataTypes } = require("sequelize");
 
 class Blog extends Model {}
 
-const initBlog = (sequelize) => {
+const initBlog = async (sequelize) => {
   Blog.init(
     {
       id: {
@@ -33,8 +33,10 @@ const initBlog = (sequelize) => {
       modelName: "blog",
       timestamps: false,
       underscored: true,
-    },
-  )
-}
+    }
+  );
 
-module.exports = { Blog, initBlog }
+  await Blog.sync();
+};
+
+module.exports = { Blog, initBlog };

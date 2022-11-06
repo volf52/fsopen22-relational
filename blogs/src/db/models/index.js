@@ -1,10 +1,10 @@
-const { Blog, initBlog } = require("./blog")
+const { Blog, initBlog } = require("./blog");
 
-const initModels = (sequelize) => {
-  initBlog(sequelize)
-}
+const initModels = async (sequelize) => {
+  await initBlog(sequelize);
+};
 
 module.exports = {
   Blog,
   initModels,
-}
+};
