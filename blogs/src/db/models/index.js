@@ -1,13 +1,11 @@
-const { Blog, initBlog } = require("./blog")
-const { User, initUser } = require("./user")
+require("../db")
+const { Blog } = require("./blog")
+const { User } = require("./user")
 
-const initModels = async (sequelize) => {
-  initBlog(sequelize)
-  initUser(sequelize)
+Blog.User = User.hasMany(Blog)
+User.Blog = Blog.belongsTo(User)
 
-  User.hasMany(Blog)
-  Blog.belongsTo(User)
-
+const initModels = async () => {
   await User.sync({ alter: true })
   await Blog.sync({ alter: true })
 }
